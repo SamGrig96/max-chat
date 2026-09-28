@@ -4,6 +4,10 @@ import type { Credentials } from '../types';
 
 const DEFAULT_API_URL = 'https://api.green-api.com';
 
+// хост инстанса: первые 4 цифры idInstance, как в личном кабинете
+const apiUrlFor = (idInstance: string) =>
+  /^\d{4}/.test(idInstance) ? `https://${idInstance.slice(0, 4)}.api.greenapi.com` : DEFAULT_API_URL;
+
 interface Props {
   onLogin: (creds: Credentials) => void;
 }
@@ -13,8 +17,17 @@ export function LoginForm({ onLogin }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const update = (key: keyof Credentials) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((f) => ({ ...f, [key]: e.target.value.trim() }));
+  const [apiUrlEdited, setApiUrlEdited] = useState(false);
+
+  const update = (key: keyof Credentials) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    if (key === 'apiUrl') setApiUrlEdited(true);
+    setForm((f) => ({
+      ...f,
+      [key]: value,
+      ...(key === 'idInstance' && !apiUrlEdited ? { apiUrl: apiUrlFor(value) } : {}),
+    }));
+  };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
