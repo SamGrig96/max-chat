@@ -16,18 +16,22 @@
 
 Стек: React 19, TypeScript, Vite, Vitest. Состояние на `useReducer`, без сторонних библиотек.
 
-## Запуск
+## Запуск локально
 
 Нужен Node.js 20+.
 
 ```bash
+git clone https://github.com/SamGrig96/max-chat.git
+cd max-chat
 npm install
 npm run dev
 ```
 
-Тесты: `npm test`, сборка: `npm run build`.
+Открыть http://localhost:5173 и войти с данными своего инстанса.
 
-Деплой на GitHub Pages делается через `.github/workflows/deploy.yml` при пуше в `main` (в настройках репозитория Pages → Source: GitHub Actions).
+Тесты: `npm test`. Сборка: `npm run build` (результат в `dist/`), посмотреть сборку: `npm run preview`.
+
+Деплой на Netlify из этого репозитория, настройки в `netlify.toml`.
 
 ## Настройка инстанса
 
