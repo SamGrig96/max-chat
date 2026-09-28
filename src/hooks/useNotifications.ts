@@ -39,7 +39,6 @@ export function useNotifications(creds: Credentials | null, onNotification: (bod
           if (!notification) continue;
 
           const { body } = notification;
-          console.info('[green-api] notification', body.typeWebhook, body.senderData?.chatId, body.messageData?.typeMessage, body);
           try {
             handlerRef.current(body);
           } finally {
