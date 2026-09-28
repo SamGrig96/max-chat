@@ -38,14 +38,18 @@ export function useNotifications(creds: Credentials | null, onNotification: (bod
           setError(null);
           if (!notification) continue;
 
+          const { body } = notification;
+          console.info('[green-api] notification', body.typeWebhook, body.senderData?.chatId, body.messageData?.typeMessage, body);
           try {
-            handlerRef.current(notification.body);
+            handlerRef.current(body);
           } finally {
             // иначе уведомление застрянет в очереди
-            await deleteNotification(creds, notification.receiptId);
+            const res = await deleteNotification(creds, notification.receiptId);
+            if (!res?.result) console.warn('[green-api] deleteNotification failed', notification.receiptId, res);
           }
         } catch (e) {
           if (signal.aborted) break;
+          console.warn('[green-api] polling error', e);
           setStatus('error');
           setError(e instanceof GreenApiError ? e.message : 'Нет соединения с GREEN-API');
           await sleep(RETRY_DELAY_MS, signal);
