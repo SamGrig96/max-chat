@@ -48,7 +48,7 @@ npm run dev
 - В MAX ответ иногда приходит с числовым `chatId`, а не с `номер@c.us`, на который отправляли. Поэтому чат ищется ещё по номеру отправителя и по `idMessage`, а найденный id запоминается (`aliases` в редьюсере).
 - Своё сообщение показывается сразу, потом получает `idMessage`. Эхо `outgoingAPIMessageReceived` с тем же id не дублируется.
 - `DeleteNotification` вызывается в `finally`, чтобы очередь не застревала.
-- Поддерживаются только `textMessage` и `extendedTextMessage`.
+- Поддерживаются только текстовые: `textMessage`, `extendedTextMessage` и `quotedMessage` (ответ с цитатой).
 
 Токен хранится только в localStorage браузера, «Выйти» его удаляет.
 
