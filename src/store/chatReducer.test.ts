@@ -36,6 +36,12 @@ describe('chatReducer', () => {
     expect(state.chats[0].messages[0].text).toBe('https://max.ru');
   });
 
+  it('supports quotedMessage (reply with quote)', () => {
+    const body = incoming({ messageData: { typeMessage: 'quotedMessage', extendedTextMessageData: { text: 'Ответ' } } });
+    const state = chatReducer(withChat(), { type: 'notification', body });
+    expect(state.chats[0].messages[0].text).toBe('Ответ');
+  });
+
   it('ignores non-text messages', () => {
     const body = incoming({ messageData: { typeMessage: 'imageMessage' } });
     const state = chatReducer(withChat(), { type: 'notification', body });

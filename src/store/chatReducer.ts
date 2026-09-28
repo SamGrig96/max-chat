@@ -28,7 +28,10 @@ export function extractText(body: NotificationBody): string | null {
   const data = body.messageData;
   if (!data) return null;
   if (data.typeMessage === 'textMessage') return data.textMessageData?.textMessage ?? null;
-  if (data.typeMessage === 'extendedTextMessage') return data.extendedTextMessageData?.text ?? null;
+  // quotedMessage = ответ с цитатой, текст там же
+  if (data.typeMessage === 'extendedTextMessage' || data.typeMessage === 'quotedMessage') {
+    return data.extendedTextMessageData?.text ?? null;
+  }
   return null;
 }
 
